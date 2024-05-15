@@ -1,0 +1,49 @@
+using gold.**
+
+toSet(C) :=  {x|  x in C}
+
+///====   mini Parser===
+
+function createParser(A):IPushdownAutomaton begin
+	Q:=(-1‥4)
+	Σ:=toSet(A)  ∪ {' ', '\n'}
+	
+	Γ:={'1'}
+	q₀:=0
+	F:= {0}
+	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
+SkipChars := {' ', '\n'}   // this will only  be used when testing only the parser as the lexer removes  SkipChars
+	//transition for open and close  parenthesis astoplevel commands.You may use others for bllocks
+	
+	 M.delta(0,1,"(m").push("1")  //for  move number 
+    M.delta(1,-1,'#').ignore()
+    
+    M.delta(0,2,"(M").push("1")  //for  move-dir   id  :right 
+     M.delta(2,3,'v').ignore()
+		M.delta(3,-1,'r').ignore()
+    
+    M.delta(0,4,"(f").push("1")  //for  face :north 
+ M.delta(4,-1,'n').ignore() 
+    
+    
+    
+    M.delta(-1, 0,')').pop("1")
+  
+
+
+ 
+
+
+
+
+
+ for each q in Q do
+ 	for each s in SkipChars do
+ 	   M.delta(q,q,λ+s).ignore()
+ end
+ end
+
+
+return M
+end
+
