@@ -77,6 +77,7 @@ procedure testLexer(M:ITransducer) begin
 end
 print  "Good bye"
 print  ""
+print ""
 
 end 
 
