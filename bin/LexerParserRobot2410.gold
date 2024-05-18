@@ -17,16 +17,15 @@ procedure main(args:String[]) begin
     
     lexer = Lexer202410.createLexer()
   
-     parser = ParserRobot202410.createParser(lexer.getOutputAlphabet())
+    //parser = ParserRobot202410.createParser(lexer.getOutputAlphabet())
 	 
 	 
-	 //testLexer(lexer)
-	 
-	 GAutomataFrame.show(parser)
+	 testLexer(lexer)
+	 //GAutomataFrame.show(parser)
    
 	 
 	 
-	 testLexerParser(lexer,parser)
+	 //testLexerParser(lexer,parser)
 end
   
   

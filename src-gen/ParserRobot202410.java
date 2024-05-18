@@ -68,50 +68,24 @@ public final class ParserRobot202410 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=8;
-      Object Q=$fix($opIntvlY($opMinusY(1),4));
-      $line=9;
-      Object \u03A3=$fix($opUnionY(ParserRobot202410.toSet(A),GCollections.asSet(' ','\n')));
       $line=11;
-      Object \u0393=$fix(GCollections.asSet('1'));
-      $line=12;
-      Object q_0=$fix(0);
-      $line=13;
-      Object F=$fix(GCollections.asSet(0));
-      $line=14;
-      Object M=$fix($invokeConstructor(GPushdownAutomaton.class,new Object[]{Q,\u03A3,\u0393,q_0,F}));
+      Object Q=$fix($opIntvlY(0,103));
       $line=15;
-      Object SkipChars=$fix(GCollections.asSet(' ','\n'));
-      $line=18;
-      $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta(0,1,$cast(java.lang.String.class,"(m")),new Object[]{"1"});
+      Object \u03A3=$fix($opUnionY(ParserRobot202410.toSet(A),GCollections.asSet(' ','\n')));
       $line=19;
-      $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(1,$opMinusY(1),$cast(java.lang.String.class,'#')),new Object[]{});
-      $line=21;
-      $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta(0,2,$cast(java.lang.String.class,"(M")),new Object[]{"1"});
-      $line=22;
-      $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(2,3,$cast(java.lang.String.class,'v')),new Object[]{});
+      Object \u0393=$fix(GCollections.asSet('$','Z','Y','B','I','D','R','T'));
       $line=23;
-      $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(3,$opMinusY(1),$cast(java.lang.String.class,'r')),new Object[]{});
-      $line=25;
-      $invokeMethod("push",((gold.structures.automaton.GPushdownAutomaton)M).delta(0,4,$cast(java.lang.String.class,"(f")),new Object[]{"1"});
-      $line=26;
-      $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(4,$opMinusY(1),$cast(java.lang.String.class,'n')),new Object[]{});
-      $line=30;
-      $invokeMethod("pop",((gold.structures.automaton.GPushdownAutomaton)M).delta($opMinusY(1),0,$cast(java.lang.String.class,')')),new Object[]{"1"});
-      $line=40;
-      for (Object $v3:GCollections.unmodifiableCollection(Q)) {
-        Object q=$v3;
-        $line=41;
-        for (Object $v4:GCollections.unmodifiableCollection(SkipChars)) {
-          Object s=$v4;
-          $line=42;
-          $invokeMethod("ignore",((gold.structures.automaton.GPushdownAutomaton)M).delta(q,q,$cast(java.lang.String.class,$opAdditY("",s))),new Object[]{});
-        }
-      }
-      $line=47;
+      Object q_0=$fix(0);
+      $line=27;
+      Object F=$fix(GCollections.asSet(100));
+      $line=29;
+      Object M=$fix($invokeConstructor(GPushdownAutomaton.class,new Object[]{Q,\u03A3,\u0393,q_0,F}));
+      $line=31;
+      Object SkipChars=$fix(GCollections.asSet(' ','\n'));
+      $line=35;
       $result=M;
       if (true) break $try;
-      $line=48;
+      $line=36;
       $rethrow(new RuntimeException("The function \"createParser(A:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {

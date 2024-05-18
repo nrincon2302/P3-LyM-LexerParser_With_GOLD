@@ -256,7 +256,7 @@ public final class Lexer202410 {
       }
       $result=$v1;
       if (true) break $try;
-      $line=31;
+      $line=30;
       $rethrow(new RuntimeException("The function \"chars(string:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -274,7 +274,7 @@ public final class Lexer202410 {
       }
       $result=$v5;
       if (true) break $try;
-      $line=33;
+      $line=32;
       $rethrow(new RuntimeException("The function \"charsStrings(strings:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -294,7 +294,7 @@ public final class Lexer202410 {
       }
       $result=$v7;
       if (true) break $try;
-      $line=35;
+      $line=34;
       $rethrow(new RuntimeException("The function \"elements(array:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -314,7 +314,7 @@ public final class Lexer202410 {
       }
       $result=$v11;
       if (true) break $try;
-      $line=37;
+      $line=36;
       $rethrow(new RuntimeException("The function \"prefixes(string:Object)\" did not return a value."));
     }
     catch (Throwable $throwable) {
@@ -939,36 +939,118 @@ public final class Lexer202410 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=215;
-      skipChars=$cast(ISet.class,$fix(GCollections.asSet(' ','\t','\n')));
-      $line=216;
-      alphaUpper=$cast(ISet.class,$fix($opIntvlY('A','Z')));
       $line=217;
-      alphaLower=$cast(ISet.class,$fix($opIntvlY('a','z')));
+      skipChars=$cast(ISet.class,$fix(GCollections.asSet(' ','\t','\n')));
       $line=218;
-      digits=$cast(ISet.class,$fix($opIntvlY('0','9')));
+      alphaUpper=$cast(ISet.class,$fix($opIntvlY('A','Z')));
       $line=219;
-      alphaNum=$cast(ISet.class,$fix($opUnionY($opUnionY($opUnionY(alphaUpper,alphaLower),digits),GCollections.asSet('-'))));
+      alphaLower=$cast(ISet.class,$fix($opIntvlY('a','z')));
+      $line=220;
+      digits=$cast(ISet.class,$fix($opIntvlY('0','9')));
       $line=221;
-      keyWords=$cast(ISet.class,$fix(GCollections.asSet("move","move-dir",":right","face",":north",":")));
-      $line=222;
-      allSymbols=$cast(ISet.class,$fix(GCollections.asSet("(",")")));
-      $line=233;
-      ((gold.structures.map.GHashTableMap)translation).put("move",'m');
-      $line=234;
-      ((gold.structures.map.GHashTableMap)translation).put("move-dir",'M');
-      $line=236;
-      ((gold.structures.map.GHashTableMap)translation).put(":right",'r');
-      $line=238;
-      ((gold.structures.map.GHashTableMap)translation).put("face",'f');
-      $line=239;
-      ((gold.structures.map.GHashTableMap)translation).put(":north",'n');
-      $line=240;
+      alphaNum=$cast(ISet.class,$fix($opUnionY($opUnionY($opUnionY(alphaUpper,alphaLower),digits),GCollections.asSet('_'))));
+      $line=225;
+      keyWords=$cast(ISet.class,$fix(GCollections.asSet("defvar","defun","move","skip","turn","face","put","pick","move-dir","run-dirs","move-face","null","Dim","myXpos","myYpos","myChips","myBalloons","balloonsHere","ChipsHere","Spaces","if","loop","repeat","facing?","blocked?","can-put?","can-pick?","can-move?","isZero?","not")));
+      $line=230;
+      allSymbols=$cast(ISet.class,$fix(GCollections.asSet("(",")","=",":","?")));
+      $line=242;
+      ((gold.structures.map.GHashTableMap)translation).put("VARS",'V');
+      $line=243;
       ((gold.structures.map.GHashTableMap)translation).put("IdL",'v');
-      $line=241;
-      ((gold.structures.map.GHashTableMap)translation).put("IdU",'v');
       $line=244;
+      ((gold.structures.map.GHashTableMap)translation).put("IdU",'v');
+      $line=248;
+      ((gold.structures.map.GHashTableMap)translation).put("PROCS",'P');
+      $line=249;
       ((gold.structures.map.GHashTableMap)translation).put("Num",'#');
+      $line=253;
+      ((gold.structures.map.GHashTableMap)translation).put("defvar",'d');
+      $line=254;
+      ((gold.structures.map.GHashTableMap)translation).put("defun",'e');
+      $line=255;
+      ((gold.structures.map.GHashTableMap)translation).put("move",'m');
+      $line=256;
+      ((gold.structures.map.GHashTableMap)translation).put("skip",'s');
+      $line=257;
+      ((gold.structures.map.GHashTableMap)translation).put("turn",'t');
+      $line=259;
+      ((gold.structures.map.GHashTableMap)translation).put("left",'r');
+      $line=260;
+      ((gold.structures.map.GHashTableMap)translation).put("right",'r');
+      $line=261;
+      ((gold.structures.map.GHashTableMap)translation).put("around",'r');
+      $line=263;
+      ((gold.structures.map.GHashTableMap)translation).put("face",'f');
+      $line=265;
+      ((gold.structures.map.GHashTableMap)translation).put("north",'d');
+      $line=266;
+      ((gold.structures.map.GHashTableMap)translation).put("south",'d');
+      $line=267;
+      ((gold.structures.map.GHashTableMap)translation).put("east",'d');
+      $line=268;
+      ((gold.structures.map.GHashTableMap)translation).put("west",'d');
+      $line=270;
+      ((gold.structures.map.GHashTableMap)translation).put("put",'p');
+      $line=271;
+      ((gold.structures.map.GHashTableMap)translation).put("pick",'p');
+      $line=273;
+      ((gold.structures.map.GHashTableMap)translation).put("balloons",'o');
+      $line=274;
+      ((gold.structures.map.GHashTableMap)translation).put("chips",'o');
+      $line=276;
+      ((gold.structures.map.GHashTableMap)translation).put("move-dir",'h');
+      $line=277;
+      ((gold.structures.map.GHashTableMap)translation).put("run-dirs",'u');
+      $line=279;
+      ((gold.structures.map.GHashTableMap)translation).put("front",'f');
+      $line=280;
+      ((gold.structures.map.GHashTableMap)translation).put("right",'f');
+      $line=281;
+      ((gold.structures.map.GHashTableMap)translation).put("left",'f');
+      $line=282;
+      ((gold.structures.map.GHashTableMap)translation).put("back",'f');
+      $line=284;
+      ((gold.structures.map.GHashTableMap)translation).put("move-face",'a');
+      $line=285;
+      ((gold.structures.map.GHashTableMap)translation).put("null",'l');
+      $line=290;
+      ((gold.structures.map.GHashTableMap)translation).put("Dim",'D');
+      $line=291;
+      ((gold.structures.map.GHashTableMap)translation).put("myXpos",'X');
+      $line=292;
+      ((gold.structures.map.GHashTableMap)translation).put("myYpos",'Y');
+      $line=293;
+      ((gold.structures.map.GHashTableMap)translation).put("myChips",'C');
+      $line=294;
+      ((gold.structures.map.GHashTableMap)translation).put("myBalloons",'B');
+      $line=295;
+      ((gold.structures.map.GHashTableMap)translation).put("balloonsHere",'H');
+      $line=296;
+      ((gold.structures.map.GHashTableMap)translation).put("ChipsHere",'E');
+      $line=297;
+      ((gold.structures.map.GHashTableMap)translation).put("Spaces",'S');
+      $line=301;
+      ((gold.structures.map.GHashTableMap)translation).put("if",'I');
+      $line=302;
+      ((gold.structures.map.GHashTableMap)translation).put("loop",'L');
+      $line=303;
+      ((gold.structures.map.GHashTableMap)translation).put("repeat",'R');
+      $line=304;
+      ((gold.structures.map.GHashTableMap)translation).put("facing",'F');
+      $line=305;
+      ((gold.structures.map.GHashTableMap)translation).put("blocked",'O');
+      $line=306;
+      ((gold.structures.map.GHashTableMap)translation).put("can-put",'P');
+      $line=307;
+      ((gold.structures.map.GHashTableMap)translation).put("can-pick",'P');
+      $line=308;
+      ((gold.structures.map.GHashTableMap)translation).put("can-move",'F');
+      $line=309;
+      ((gold.structures.map.GHashTableMap)translation).put("isZero",'Z');
+      $line=310;
+      ((gold.structures.map.GHashTableMap)translation).put("not",'n');
+      $line=313;
+      ((gold.structures.map.GHashTableMap)translation).put("can-move?",'F');
     }
     catch (Throwable $throwable) {
       $rethrow($throwable,Lexer202410.class,"initialize",$line);
