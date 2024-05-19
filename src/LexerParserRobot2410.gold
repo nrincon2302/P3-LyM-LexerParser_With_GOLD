@@ -17,12 +17,11 @@ procedure main(args:String[]) begin
     
     lexer = Lexer202410.createLexer()
   
-     parser = ParserRobot202410.createParser(lexer.getOutputAlphabet())
+    parser = ParserRobot202410.createParser(lexer.getOutputAlphabet())
 	 
 	 
 	 //testLexer(lexer)
-	 
-	 GAutomataFrame.show(parser)
+	 //GAutomataFrame.show(parser)
    
 	 
 	 
@@ -77,7 +76,6 @@ procedure testLexer(M:ITransducer) begin
 end
 print  "Good bye"
 print  ""
-print ""
 
 end 
 

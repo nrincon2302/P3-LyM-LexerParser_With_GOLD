@@ -27,7 +27,6 @@ var diffIdents : Boolean
 var Ids: ISet
 var translation : GHashTableMap()
 
-
 chars(string) :=  {string.charAt(i)| 0 <= i <string.length() }
 
 charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
@@ -35,6 +34,7 @@ charsStrings(strings) := (∪ s | s ∈ strings: chars(s) )
 elements(array) :=  {array[i]| 0 <= i < |array| }
          
 prefixes(string) := {string.substring(0,i)| 1 <= i <= string.length() }
+
 splits(string):= { ⟨string.substring(0,i),string.substring(i,string.length())⟩| 1 <= i <= string.length()-1 }
 
 allPrefixes(strings):= (∪ s | s ∈ strings: prefixes(s) )
@@ -211,17 +211,24 @@ end
 // **************  This is the only  procedure you have to change for your lexer 
  
  procedure initialize() begin
- 
+ 	
+ 	/*ALPHABETS AND CHARACTERS DEFINITION*/
+ 	
  	skipChars := {' ', '\t', '\n'}
 	alphaUpper := ('A'‥'Z')
-   alphaLower := ('a' ‥ 'z') 
-   digits :=  ('0'‥'9')
-	alphaNum := alphaUpper ∪ alphaLower ∪ digits  ∪ {'-'}      // Alphanumeric characters
-
-	keyWords := {"move", "move-dir",":right","face",":north",":"}  // keywords  y the language is not case sensitive use only ;oercase letters:
-	allSymbols := {  "(" , ")" }  // Symbols  and brackets, both single char and  multicharacter
+	alphaLower := ('a' ‥ 'z') 
+	digits :=  ('0'‥'9')
+	alphaNum := alphaUpper ∪ alphaLower ∪ digits ∪ {'_'}   
 	
+	/**SYMBOLS WITH LEN = 1 ARE TOKENIZED AS THEMSELVES **/
 	
+	keyWords := {"defvar", "defun", "move", "skip", "turn", "face", "put", "pick", "move-dir", "run-dirs", 
+					"move-face", "null", "Dim", "myXpos", "myYpos", "myChips", "myBalloons", "balloonsHere", 
+					"ChipsHere", "Spaces", "if", "loop", "repeat", "facing", "blocked", "can-put", "can-pick",
+					"can-move", "isZero", "not", "west", "east", "south", "north", "chips", "balloons", 
+					"left", "right", "around", "front", "back", ")))", "))", ")"}
+	
+	allSymbols := { "(", ")))", "))", ")" , "=", ":", "?"}  // Symbols  and brackets, both single char and  multicharacter
 	
 	
 	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
@@ -229,21 +236,82 @@ end
 	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
 	
 	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
-	 
-	  translation.put("move",'m')
-	translation.put("move-dir",'M')
-	
-		translation.put(":right",'r')
+	/**TRANSLATIONS DEFINITION **/
 
-	 translation.put("face",'f')
-	translation.put( ":north",'n')
+	/*VARS KEYWORD AND NAME IDENTIFIERS*/
+	
+	translation.put("VARS",'V')
 	translation.put("IdL",'v')  
-	translation.put("IdU",'v')  //if  there is no difference between names that start with caps and those that don't,
-	    							//assign the same translation
-	 
-	 translation.put("Num",'#')
-	 // **************
+	translation.put("IdU",'v')
+	
+	/*PROCS KEYWORD AND NUMBER IDENTIFIER*/
+	
+	translation.put("PROCS",'P')
+	translation.put("Num",'#')
+	
+	/*COMMANDS KEYWORDS*/
+	
+	translation.put("defvar",'d')
+	translation.put("defun",'e')
+	translation.put("move",'m')
+	translation.put("skip",'m')
+	translation.put("turn",'t')
+	
+	translation.put("left",'r')
+	translation.put("right",'r')
+	translation.put("around",'r')
+	
+	translation.put("face",'f')
+	
+	translation.put("north",'d')
+	translation.put("south",'d')
+	translation.put("east",'d')
+	translation.put("west",'d')
+	
+	translation.put("put",'p')
+	translation.put("pick",'p')
+	
+	translation.put("balloons",'o')
+	translation.put("chips",'o')
+	
+	translation.put("move-dir",'h')
+	translation.put("run-dirs",'u')
+	
+	translation.put("around",'A')
+	translation.put("right",'C')
+	translation.put("left",'C')
+	translation.put("front",'z')
+	translation.put("back",'z')
+	
+	translation.put("move-face",'a')
+	translation.put("null",'l')
+
+
+	/*CONSTANTS*/
+	
+	translation.put("Dim",'#')
+	translation.put(")))",'T')
+	translation.put("))",'D')
+	translation.put("myXpos",'#')
+	translation.put("myYpos",'#')
+	translation.put("myChips",'#') 
+	translation.put("myBalloons",'#')
+	translation.put("balloonsHere",'#')
+	translation.put("ChipsHere",'#')
+	translation.put("Spaces",'#') 
+	  
+	/*CONTROL STRUCTURES KEYWORDS*/
+	
+	translation.put("if",'I')
+	translation.put("loop",'L')
+	translation.put("repeat",'R')
+	translation.put("facing",'F')
+	translation.put("blocked",'O')
+	translation.put("can-put",'P')
+	translation.put("can-pick",'P')
+	translation.put("can-move",'W')
+	translation.put("isZero",'Z')
+	translation.put("not",'n')
+	
 	 
 end
-
-
