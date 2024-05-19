@@ -171,8 +171,10 @@ public final class LexerParserRobot2410 {
       Object currentString=$fix("");
       $line=18;
       lexer=$cast(GDeterministicTransducer.class,$fix(Lexer202410.createLexer()));
-      $line=23;
-      LexerParserRobot2410.testLexer($cast(gold.structures.automaton.ITransducer.class,lexer));
+      $line=20;
+      parser=$cast(GPushdownAutomaton.class,$fix(ParserRobot202410.createParser(((gold.structures.automaton.GDeterministicTransducer)lexer).getOutputAlphabet())));
+      $line=28;
+      LexerParserRobot2410.testLexerParser($cast(gold.structures.automaton.ITransducer.class,lexer),$cast(gold.structures.automaton.IPushdownAutomaton.class,parser));
     }
     catch (Throwable $throwable) {
       $rethrow($throwable,LexerParserRobot2410.class,"main",$line);
@@ -263,8 +265,6 @@ public final class LexerParserRobot2410 {
       System.out.println($message(new Object[]{"Good bye"}));
       $line=78;
       System.out.println($message(new Object[]{""}));
-      $line=79;
-      System.out.println($message(new Object[]{""}));
     }
     catch (Throwable $throwable) {
       $rethrow($throwable,LexerParserRobot2410.class,"testLexer",$line);
@@ -275,129 +275,129 @@ public final class LexerParserRobot2410 {
     int $line=0;
     Object $result=null;
     $try:try {
-      $line=90;
+      $line=89;
       java.util.Scanner sc=null;
       sc=$invokeConstructor(java.util.Scanner.class,new Object[]{$invokeField(System.class,"in",true,null)});
-      $line=91;
+      $line=90;
       String string=null;
       string=$defaultValue(String.class);
-      $line=92;
+      $line=91;
       String input=null;
       input=$defaultValue(String.class);
-      $line=95;
+      $line=94;
       Object inputA=$fix(LexerParserRobot2410.elements(((gold.structures.automaton.ITransducer)M).getInputAlphabet()));
-      $line=96;
+      $line=95;
       Object inputP=$fix(LexerParserRobot2410.elements(((gold.structures.automaton.IPushdownAutomaton)P).getInputAlphabet()));
-      $line=99;
+      $line=98;
       input=$cast(String.class,$fix(""));
-      $line=102;
+      $line=101;
       System.out.println($message(new Object[]{"----------------------------"}));
-      $line=103;
+      $line=102;
       System.out.println($message(new Object[]{"Enter one or more lines. End with a single line with $"}));
-      $line=104;
+      $line=103;
       System.out.println($message(new Object[]{"If you want to stop testing, enter EXIT"}));
-      $line=105;
+      $line=104;
       string=$cast(String.class,$fix(((java.util.Scanner)sc).nextLine()));
-      $line=110;
+      $line=109;
       while (true) {
         if (!(!$opEqualY(string,"EXIT"))) break;
-        $line=112;
+        $line=111;
         string=$cast(String.class,$fix($opAdditY(string,"  \n ")));
-        $line=113;
+        $line=112;
         input=$cast(String.class,$fix(""));
-        $line=114;
+        $line=113;
         while (true) {
           if (!(!$opEqualY(((java.lang.String)string).charAt($int(0)),'$'))) break;
-          $line=115;
+          $line=114;
           input=$cast(String.class,$fix($opAdditY(input,string)));
-          $line=116;
+          $line=115;
           string=$cast(String.class,$fix($opAdditY(((java.util.Scanner)sc).nextLine()," \n ")));
         }
-        $line=119;
+        $line=118;
         Object option=$fix("");
-        $line=120;
+        $line=119;
         while (true) {
           if (!(!$opMembrY(option,GCollections.asSet("1","2","3")))) break;
-          $line=121;
+          $line=120;
           System.out.println($message(new Object[]{"What do you want to do?"}));
-          $line=122;
+          $line=121;
           System.out.println($message(new Object[]{"1. Lexer only?"}));
-          $line=123;
+          $line=122;
           System.out.println($message(new Object[]{"2. Lexer and parser?"}));
-          $line=124;
+          $line=123;
           System.out.println($message(new Object[]{"3. Parser?"}));
-          $line=125;
+          $line=124;
           option=$fix(((java.util.Scanner)sc).nextLine());
         }
-        $line=127;
+        $line=126;
         Object stringOut=$fix("");
-        $line=128;
+        $line=127;
         if ($opMembrY(option,GCollections.asSet("1","2"))) {
-          $line=129;
+          $line=128;
           if ($opSbsetY(LexerParserRobot2410.chars(input),inputA)) {
-            $line=130;
+            $line=129;
             Object currentString=$fix("");
-            $line=131;
+            $line=130;
             Object images=$fix($invokeConstructor(GArrayList.class,new Object[]{}));
-            $line=133;
+            $line=132;
             Object result=$fix(Lexer202410.runLexer(M,input));
-            $line=136;
+            $line=135;
             Object ok=$fix(LexerParserRobot2410.get1($cast(java.lang.Iterable.class,result)));
-            $line=137;
+            $line=136;
             images=$fix(LexerParserRobot2410.get2($cast(java.lang.Iterable.class,result)));
-            $line=138;
+            $line=137;
             Object tokenStream=$fix(((gold.structures.automaton.ITransducer)M).getOutputString());
-            $line=143;
+            $line=142;
             System.out.println($message(new Object[]{$opAdditY($opAdditY("The input was ",(($bool(ok))?(""):("not ")))," accepted by the lexer.")}));
-            $line=144;
+            $line=143;
             if ($bool(ok)) {
-              $line=145;
+              $line=144;
               System.out.println($message(new Object[]{$opAdditY("Token Stream:  ",tokenStream)}));
-              $line=146;
+              $line=145;
               System.out.println($message(new Object[]{$opAdditY("Strings: ",images)}));
-              $line=147;
+              $line=146;
               if ($opEqualY(option,"2")) {
-                $line=148;
+                $line=147;
                 ok=$fix(((gold.structures.automaton.IPushdownAutomaton)P).acceptsString($cast(java.lang.String.class,tokenStream)));
-                $line=149;
+                $line=148;
                 System.out.println($message(new Object[]{$opAdditY("Parser result: ",(($bool(ok))?("accepted "):("rejected ")))}));
               }
             }
             else {
-              $line=151;
+              $line=150;
               System.out.println($message(new Object[]{$opAdditY("Partial token Stream: ",tokenStream)}));
             }
           }
           else {
-            $line=153;
+            $line=152;
             System.out.println($message(new Object[]{$opAdditY("Input contains invalid characters: ",$opDiffeY(LexerParserRobot2410.chars(input),inputA))}));
           }
         }
         else {
-          $line=156;
+          $line=155;
           if ($opSbsetY(LexerParserRobot2410.chars(input),inputP)) {
-            $line=157;
+            $line=156;
             Object ok=$fix(((gold.structures.automaton.IPushdownAutomaton)P).acceptsString($cast(java.lang.String.class,input)));
-            $line=158;
+            $line=157;
             System.out.println($message(new Object[]{$opAdditY("Parser result: ",(($bool(ok))?("accepted "):("rejected ")))}));
           }
           else {
-            $line=160;
+            $line=159;
             System.out.println($message(new Object[]{$opAdditY("Input contains invalid characters: ",$opDiffeY(LexerParserRobot2410.chars(input),inputP))}));
           }
         }
-        $line=163;
+        $line=162;
         System.out.println($message(new Object[]{"----------------------------"}));
-        $line=165;
+        $line=164;
         System.out.println($message(new Object[]{"Enter one or more lines. End with a single line with $"}));
-        $line=166;
+        $line=165;
         System.out.println($message(new Object[]{"If you want to stop testing, enter EXIT"}));
-        $line=167;
+        $line=166;
         string=$cast(String.class,$fix(((java.util.Scanner)sc).nextLine()));
       }
-      $line=170;
+      $line=169;
       System.out.println($message(new Object[]{"Good bye"}));
-      $line=171;
+      $line=170;
       System.out.println($message(new Object[]{""}));
     }
     catch (Throwable $throwable) {

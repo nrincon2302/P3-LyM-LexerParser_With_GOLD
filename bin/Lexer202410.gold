@@ -212,7 +212,7 @@ end
  
  procedure initialize() begin
  	
- 	/**ALPHABETS AND CHARACTERS DEFINITION**/
+ 	/*ALPHABETS AND CHARACTERS DEFINITION*/
  	
  	skipChars := {' ', '\t', '\n'}
 	alphaUpper := ('A'‥'Z')
@@ -224,10 +224,11 @@ end
 	
 	keyWords := {"defvar", "defun", "move", "skip", "turn", "face", "put", "pick", "move-dir", "run-dirs", 
 					"move-face", "null", "Dim", "myXpos", "myYpos", "myChips", "myBalloons", "balloonsHere", 
-					"ChipsHere", "Spaces", "if", "loop", "repeat", "facing?", "blocked?", "can-put?", "can-pick?",
-					"can-move?", "isZero?", "not"}
+					"ChipsHere", "Spaces", "if", "loop", "repeat", "facing", "blocked", "can-put", "can-pick",
+					"can-move", "isZero", "not", "west", "east", "south", "north", "chips", "balloons", 
+					"left", "right", "around", "front", "back", ")))", "))", ")"}
 	
-	allSymbols := { "(" , ")", "=", ":", "?"}  // Symbols  and brackets, both single char and  multicharacter
+	allSymbols := { "(", ")))", "))", ")" , "=", ":", "?"}  // Symbols  and brackets, both single char and  multicharacter
 	
 	
 	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
@@ -237,23 +238,23 @@ end
 	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
 	/**TRANSLATIONS DEFINITION **/
 
-	/**VARS KEYWORD AND NAME IDENTIFIERS**/
+	/*VARS KEYWORD AND NAME IDENTIFIERS*/
 	
 	translation.put("VARS",'V')
 	translation.put("IdL",'v')  
 	translation.put("IdU",'v')
 	
-	/**PROCS KEYWORD AND NUMBER IDENTIFIER**/
+	/*PROCS KEYWORD AND NUMBER IDENTIFIER*/
 	
 	translation.put("PROCS",'P')
 	translation.put("Num",'#')
 	
-	/**COMMANDS KEYWORDS**/
+	/*COMMANDS KEYWORDS*/
 	
 	translation.put("defvar",'d')
 	translation.put("defun",'e')
 	translation.put("move",'m')
-	translation.put("skip",'s')
+	translation.put("skip",'m')
 	translation.put("turn",'t')
 	
 	translation.put("left",'r')
@@ -276,27 +277,30 @@ end
 	translation.put("move-dir",'h')
 	translation.put("run-dirs",'u')
 	
-	translation.put("front",'f')
-	translation.put("right",'f')
-	translation.put("left",'f')
-	translation.put("back",'f')
+	translation.put("around",'A')
+	translation.put("right",'C')
+	translation.put("left",'C')
+	translation.put("front",'z')
+	translation.put("back",'z')
 	
 	translation.put("move-face",'a')
 	translation.put("null",'l')
 
 
-	/**CONSTANTS**/
+	/*CONSTANTS*/
 	
-	translation.put("Dim",'D')
-	translation.put("myXpos",'X')
-	translation.put("myYpos",'Y')
-	translation.put("myChips",'C') 
-	translation.put("myBalloons",'B')
-	translation.put("balloonsHere",'H')
-	translation.put("ChipsHere",'E')
-	translation.put("Spaces",'S') 
+	translation.put("Dim",'#')
+	translation.put(")))",'T')
+	translation.put("))",'D')
+	translation.put("myXpos",'#')
+	translation.put("myYpos",'#')
+	translation.put("myChips",'#') 
+	translation.put("myBalloons",'#')
+	translation.put("balloonsHere",'#')
+	translation.put("ChipsHere",'#')
+	translation.put("Spaces",'#') 
 	  
-	/**CONTROL STRUCTURES KEYWORDS**/
+	/*CONTROL STRUCTURES KEYWORDS*/
 	
 	translation.put("if",'I')
 	translation.put("loop",'L')
@@ -305,12 +309,9 @@ end
 	translation.put("blocked",'O')
 	translation.put("can-put",'P')
 	translation.put("can-pick",'P')
-	translation.put("can-move",'F')
+	translation.put("can-move",'W')
 	translation.put("isZero",'Z')
 	translation.put("not",'n')
 	
-	
-	translation.put("can-move?",'F')
-
 	 
 end
