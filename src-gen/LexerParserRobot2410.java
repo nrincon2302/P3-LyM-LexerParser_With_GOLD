@@ -173,6 +173,8 @@ public final class LexerParserRobot2410 {
       lexer=$cast(GDeterministicTransducer.class,$fix(Lexer202410.createLexer()));
       $line=20;
       parser=$cast(GPushdownAutomaton.class,$fix(ParserRobot202410.createParser(((gold.structures.automaton.GDeterministicTransducer)lexer).getOutputAlphabet())));
+      $line=24;
+      GAutomataFrame.show($cast(gold.structures.automaton.IAutomaton.class,parser));
       $line=28;
       LexerParserRobot2410.testLexerParser($cast(gold.structures.automaton.ITransducer.class,lexer),$cast(gold.structures.automaton.IPushdownAutomaton.class,parser));
     }

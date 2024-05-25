@@ -228,7 +228,7 @@ end
 					"can-move", "isZero", "not", "west", "east", "south", "north", "chips", "balloons", 
 					"left", "right", "around", "front", "back", ")))", "))", ")"}
 	
-	allSymbols := { "(", ")))", "))", ")" , "=", ":", "?"}  // Symbols  and brackets, both single char and  multicharacter
+	allSymbols := { "(", ")" , "=", ":", "?"}  // Symbols  and brackets, both single char and  multicharacter
 	
 	
 	// TRANSLATION FOR ALL STRINGS IN KEYWORDS
@@ -256,10 +256,6 @@ end
 	translation.put("move",'m')
 	translation.put("skip",'m')
 	translation.put("turn",'t')
-	
-	translation.put("left",'r')
-	translation.put("right",'r')
-	translation.put("around",'r')
 	
 	translation.put("face",'f')
 	
@@ -290,8 +286,8 @@ end
 	/*CONSTANTS*/
 	
 	translation.put("Dim",'#')
-	translation.put(")))",'T')
-	translation.put("))",'D')
+	//translation.put(")))",'T')
+	//translation.put("))",'D')
 	translation.put("myXpos",'#')
 	translation.put("myYpos",'#')
 	translation.put("myChips",'#') 

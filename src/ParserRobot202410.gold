@@ -8,14 +8,14 @@ function createParser(A):IPushdownAutomaton begin
 	
 	/**STATES DEFINITION**/
 	
-	Q:= (0‥54)∪(98‥100)
+	Q:= (0‥100)
 	
 	/**INPUT ALPHABET DEFINITION**/
 	
 	Σ:= toSet(A) ∪ {' ', '\n'} 
 	
 	/**STACK ALPHABET**/
-	Γ:={'$','D','C', 'O', 'I', 'A', 'B', 'V', 'L', 'R', 'E'}
+	Γ:={'$','P','D','C','E','I','L','R','A','N','B'}
 	
 	/**INITIAL STATE**/
 	
@@ -32,146 +32,165 @@ function createParser(A):IPushdownAutomaton begin
 	/**TRANSITIONS FOR VERIFY ROBOT_R KEYWORD (MANDATORY)**/
 	
 	M.delta(0,1,λ).push("$")
-	M.delta(1,23,'(').push("V")
-
+	M.delta(1,2,'(').push("P")
+	M.delta(2,2,'(').push("P")
+	
 	/**DEFVAR**/
 	M.delta(2,3,'d').push("D")
 	M.delta(3,4,'v').ignore()
 	M.delta(4,5,'#').ignore()
-	M.delta(5,6,')').pop("D")
-	M.delta(6,100,λ).pop("$")
+	M.delta(4,5,':').ignore()
+	M.delta(5,5,'d').ignore()
+	M.delta(5,5,'C').ignore()
+	M.delta(5,5,'A').ignore()
+	M.delta(5,5,'z').ignore()
+	M.delta(5,5,'o').ignore()
+	M.delta(5,99,')').pop("PD")
 	
-	/**CONDITIONS**/
-	M.delta(8,9,'(').ignore()		
-	M.delta(12,13,')').pop("C")
-	M.delta(13,100,λ).pop("$VI")
-
-	/**se trata de una condicion dentro de un if**/
-	M.delta(13,23,'(').ignore()
-	M.delta(12,13,'D').pop("C")
-
-	/**1. facing**/
-	M.delta(9,10,'F').push("C")
-	M.delta(10,11,'?').ignore()
-	M.delta(11,12,'d').ignore()
+	/**COMANDOS**/
+	/**1. = name n**/
+	M.delta(2,6,'=').push("C")
+	M.delta(6,7,'v').ignore()
+	M.delta(7,7,':').ignore()
+	M.delta(7,98,'d').ignore()
+	M.delta(7,98,'C').ignore()
+	M.delta(7,98,'A').ignore()
+	M.delta(7,98,'z').ignore()
+	M.delta(7,98,'o').ignore()
+	M.delta(7,98,'#').ignore()
+	M.delta(7,98,'v').ignore()
 	
+	/**2. = move n, skip n**/
+	M.delta(2,8,'m').push("C")
+	M.delta(8,98,'#').ignore()
+	M.delta(8,98,'v').ignore()
 	
-	/**2. blocked?**/
-	M.delta(9,13,'O').push("C")
-	M.delta(13,12,'?').ignore()
+	/**3. = turn D**/
+	M.delta(2,9,'t').push("C")
+	M.delta(9,10,':').ignore()
+	M.delta(10,98,'C').ignore()
+	M.delta(10,98,'A').ignore()
+	M.delta(9,98,'v').ignore() //Una variable no tiene los : adelante
 	
+	/**4. = face O**/
+	M.delta(2,11,'f').push("C")
+	M.delta(11,12,':').ignore()
+	M.delta(12,98,'d').ignore()
+	M.delta(11,98,'v').ignore()
 	
-	/**3. can-put?**/
-	M.delta(9,14,'P').push("C")
-	M.delta(14,15,'?').ignore()
-	M.delta(15,16,'o').ignore()
-	M.delta(16,12,'#').ignore()
-
-	/**4. can-move**/
-	M.delta(9,17,'W').push("C")
-	M.delta(17,18,'?').ignore()
-	M.delta(18,19,':').ignore()
-	M.delta(19,12,'d').ignore()
-	
-	/**5.isZero**/
-	M.delta(9,20,'Z').push("C")
-	M.delta(20,21,'?').ignore()
-	M.delta(21,12,'#').ignore()
-	
-	/**6. not cond**/
-	M.delta(9,8,'n').ignore()
-	M.delta(8,9,'(').ignore()
-	
-
-	/**COMMANDOS**/	
-	/**comnado dentro de un if**/
-	M.delta(26,47,')').pop("AO")
-	M.delta(47,47,')').pop("A")
-	M.delta(47,23,'(').push("A")
-	M.delta(26,47,'D').changeTop("IO", "L")
-	M.delta(26,47,'T').pop("LO")
-	M.delta(23,23,'(').push("A")
-	M.delta(47,23,'(').ignore()
-	M.delta(46,100,λ).pop("$V")
-	M.delta(47,100,λ).pop("$V")
-	
-	M.delta(47,100,λ).pop("$V")
-	M.delta(47,100,λ).pop("$V")
-	
-	/**2. = name n**/
-	M.delta(23,24,'=').push("O")
-	M.delta(24,25,'v').ignore()
-	M.delta(25,26,'#').ignore()
-	M.delta(25,26,'v').ignore()
-	
-	/**3. = move n, skip n**/
-	M.delta(23,28,'m').push("O")
-	M.delta(28,26,'#').ignore()
-	M.delta(28,26,'v').ignore()
-
-	/**4. = turn D**/
-	M.delta(23,29,'t').push("O")
-	M.delta(29,30,':').ignore()
-	M.delta(30,26,'C').ignore()
-	M.delta(30,26,'A').ignore()
-	
-	/**5. = face O**/
-	M.delta(23,31,'f').push("O")
-	M.delta(31,32,':').ignore()
-	M.delta(32,26,'d').ignore()
-	
-	/**6. = put/pick X n**/
-	M.delta(23,33,'p').push("O")
-	M.delta(33,34,':').ignore()
-	M.delta(34,35,'o').ignore()
-	M.delta(35,26,'#').ignore()
-	M.delta(35,26,'v').ignore()
+	/**5. = put/pick X n**/
+	M.delta(2,13,'p').push("C")
+	M.delta(13,15,'v').ignore()
+	M.delta(13,14,':').ignore()
+	M.delta(14,15,'o').ignore()
+	M.delta(15,98,'#').ignore()
+	M.delta(15,98,'v').ignore()
 		
-	/**7. (move-dir n D)**/
-	M.delta(23,36,'h').push("O")
-	M.delta(36,37,'#').ignore()
-	M.delta(37,38,':').ignore()
-	M.delta(38,26,'z').ignore()
-	M.delta(38,26,'C').ignore()
+	/**6. (move-dir n D)**/
+	M.delta(2,16,'h').push("C")
+	M.delta(16,17,'#').ignore()
+	M.delta(16,17,'v').ignore()
+	M.delta(17,18,':').ignore()
+	M.delta(18,98,'z').ignore()
+	M.delta(18,98,'C').ignore()
+	M.delta(17,98,'v').ignore()
 	
-	/**8. = (run-dirs Ds)**/
-	M.delta(23,40,'u').push("O")
-	M.delta(40,41,':').ignore()
-	M.delta(41,42,'z').ignore()
-	M.delta(41,42,'C').ignore()
-	M.delta(42,27,')').pop("O")
-	M.delta(42,41,':').ignore()
+	/**7. = (run-dirs Ds)**/
+	M.delta(2,19,'u').push("C")
+	M.delta(19,20,':').ignore()
+	M.delta(20,21,'z').ignore()
+	M.delta(20,21,'C').ignore()
+	M.delta(19,21,'v').ignore()
+	M.delta(21,99,')').pop("PC") // Caso especial: Acaba el comando
+	M.delta(19,99,')').pop("PC") // Caso especial: Acaba el comando
+	M.delta(21,20,':').ignore()
+	M.delta(21,19,'v').ignore()
 	
-	/**9. = (move-face n O)**/
-	M.delta(23,43,'a').push("O")
-	M.delta(43,44,'#').ignore()
-	M.delta(43,44,'v').ignore()
-	M.delta(44,45,':').ignore()
-	M.delta(45,26,'d').ignore()
+	/**8. = (move-face n O)**/
+	M.delta(2,22,'a').push("C")
+	M.delta(22,23,'#').ignore()
+	M.delta(22,23,'v').ignore()
+	M.delta(23,24,':').ignore()
+	M.delta(24,98,'d').ignore()
+	M.delta(23,98,'v').ignore()
 	
-	/**10. = (null)**/
-	M.delta(23,26,'l').push("O")
-	
-	/**CONDITIONAL**/
-	M.delta(23,8,'I').push("I")
-	
-	/**REPEAT**/
-	M.delta(23,8,'L').push("L")
-
-	/**REPEAT TIMES**/
-	M.delta(23,48,'R').push("L")
-	M.delta(48,49,'#').ignore()
-	M.delta(48,49,'v').ignore()
-	M.delta(49,23,'(').ignore()
+	/**9. = (null)**/
+	M.delta(2,98,'l').push("C")
 	
 	/**DEFUN**/
-	M.delta(23,50,'e').push("E")
-	M.delta(50,51,'v').ignore()
-	M.delta(51,52,'(').ignore()
-	M.delta(52,53,'v').ignore()
-	M.delta(53,53,'v').ignore()
-	M.delta(53,54,')').ignore()
-	M.delta(52,54,')').ignore()
+	M.delta(2,25,'e').push("E")
+	M.delta(25,26,'v').ignore()
+	M.delta(26,27,'(').push("P")
+	M.delta(27,28,'v').$skip("P")
+	M.delta(28,28,'v').$skip("P")
+	M.delta(27,2,')').pop("P") // Función sin argumentos
+	M.delta(28,2,')').pop("P") // Lo mando a que haga la operación de bloques
+	
+	/**CONDITIONAL**/
+	M.delta(2,29,'I').push("I")
+	M.delta(29,30,'(').push("P")
+	M.delta(31,2,')').changeTop("PA","B") // Lo mando a que haga la operación de bloque1
+	M.delta(31,33,')').changeTop("NPA","N")
+	
+	/**CONDITIONS**/
+	// Usados hasta ahora en la pila PDCE$IL
+	/**1. facing? O**/
+	M.delta(30,40,'F').push("A")
+	M.delta(40,41,'?').ignore()
+	M.delta(41,31,'d').ignore()
+	
+	/**2. blocked?**/
+	M.delta(30,42,'O').push("A")
+	M.delta(42,31,'?').ignore()
+	
+	/**3. can-put/pick? X n**/
+	M.delta(30,43,'P').push("A")
+	M.delta(43,44,'?').ignore()
+	M.delta(44,45,'o').ignore()
+	M.delta(45,31,'#').ignore()
+
+	/**4. can-move? D**/
+	M.delta(30,46,'W').push("A")
+	M.delta(46,47,'?').ignore()
+	M.delta(47,48,':').ignore()
+	M.delta(48,31,'d').ignore()
+	
+	/**5. isZero? V**/
+	M.delta(30,49,'Z').push("A")
+	M.delta(49,50,'?').ignore()
+	M.delta(50,31,'#').ignore()
+	
+	/**6. not cond**/
+	M.delta(30,32,'n').push("N")
+	M.delta(32,30,'(').push("P")
+	M.delta(33,2,')').changeTop("PN","B")
+	
+	
+	/**FINALIZACIONES**/
+	/* Finalización de una función */
+	M.delta(99,97,')').pop("PE")
+	M.delta(99,97,"))").pop("PEP")
+	M.delta(99,2,")(").$skip("P")
+	M.delta(97,100,λ).pop("$")
+	M.delta(97,2,'(').push("P") //Si algo continúa después de acabar un fragmento lógico
+	
+	/* Finalización dentro de un condicional */
+	M.delta(98,2,")(").changeTop("BPC","BB")
+	M.delta(98,96,"))").pop("BBPC")
+	M.delta(96,95,')').pop("PI")
+	M.delta(95,100,λ).pop("$")
+	
+	/** Finalización de un comando o bloque**/
+	M.delta(98,99,')').pop("PC")
+	M.delta(99,99,')').changeTop("PP","P")
+	M.delta(99,100,')').pop("$P")
+	M.delta(99,100,λ).pop("$")
+	M.delta(99,2,'(').push("P")
+	M.delta(100,2,'(').push("P")
+	
+	
+	
+	
 	
 return M
 end
