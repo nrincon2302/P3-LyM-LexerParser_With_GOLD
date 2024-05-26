@@ -171,6 +171,7 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(99,97,')').pop("PE")
 	M.delta(99,97,"))").pop("PEP")
 	M.delta(99,2,")(").$skip("P")
+	M.delta(97,97,')').pop("P")
 	M.delta(97,100,λ).pop("$")
 	M.delta(97,2,'(').push("P") //Si algo continúa después de acabar un fragmento lógico
 	
