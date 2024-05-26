@@ -21,7 +21,7 @@ procedure main(args:String[]) begin
 	 
 	 
 	 //testLexer(lexer)
-	 GAutomataFrame.show(parser)
+	 //GAutomataFrame.show(parser)
    
 	 
 	 

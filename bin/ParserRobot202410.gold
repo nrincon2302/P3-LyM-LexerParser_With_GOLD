@@ -8,18 +8,18 @@ function createParser(A):IPushdownAutomaton begin
 	
 	/**STATES DEFINITION**/
 	
-	Q:= (0‥100)
+	Q:= (1‥50)∪(90‥100)
 	
 	/**INPUT ALPHABET DEFINITION**/
 	
 	Σ:= toSet(A) ∪ {' ', '\n'} 
 	
 	/**STACK ALPHABET**/
-	Γ:={'$','P','D','C','E','I','L','R','A','N','1','2'}
+	Γ:={'$','P','D','C','E','I','L','R','A','N','0','1','2'}
 	
 	/**INITIAL STATE**/
 	
-	q₀:= 0
+	q₀:= 1
 	
 	/**SET OF FINALS STATES**/
 	
@@ -31,8 +31,7 @@ function createParser(A):IPushdownAutomaton begin
 	
 	/**TRANSITIONS FOR VERIFY ROBOT_R KEYWORD (MANDATORY)**/
 	
-	M.delta(0,1,λ).push("$")
-	M.delta(1,2,'(').push("P")
+	M.delta(1,2,'(').push("0P")
 	M.delta(2,2,'(').push("P")
 	
 	/**DEFVAR**/
@@ -45,55 +44,55 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(5,5,'A').ignore()
 	M.delta(5,5,'z').ignore()
 	M.delta(5,5,'o').ignore()
-	M.delta(5,99,')').pop("PD")
+	M.delta(5,90,')').pop("PD")
 	
 	/**COMANDOS**/
 	/**1. = name n**/
 	M.delta(2,6,'=').push("C")
 	M.delta(6,7,'v').ignore()
 	M.delta(7,7,':').ignore()
-	M.delta(7,98,'d').ignore()
-	M.delta(7,98,'C').ignore()
-	M.delta(7,98,'A').ignore()
-	M.delta(7,98,'z').ignore()
-	M.delta(7,98,'o').ignore()
-	M.delta(7,98,'#').ignore()
-	M.delta(7,98,'v').ignore()
+	M.delta(7,91,'d').ignore()
+	M.delta(7,91,'C').ignore()
+	M.delta(7,91,'A').ignore()
+	M.delta(7,91,'z').ignore()
+	M.delta(7,91,'o').ignore()
+	M.delta(7,91,'#').ignore()
+	M.delta(7,91,'v').ignore()
 	
 	/**2. = move n, skip n**/
 	M.delta(2,8,'m').push("C")
-	M.delta(8,98,'#').ignore()
-	M.delta(8,98,'v').ignore()
+	M.delta(8,91,'#').ignore()
+	M.delta(8,91,'v').ignore()
 	
 	/**3. = turn D**/
 	M.delta(2,9,'t').push("C")
 	M.delta(9,10,':').ignore()
-	M.delta(10,98,'C').ignore()
-	M.delta(10,98,'A').ignore()
-	M.delta(9,98,'v').ignore() //Una variable no tiene los : adelante
+	M.delta(10,91,'C').ignore()
+	M.delta(10,91,'A').ignore()
+	M.delta(9,91,'v').ignore() //Una variable no tiene los : adelante
 	
 	/**4. = face O**/
 	M.delta(2,11,'f').push("C")
 	M.delta(11,12,':').ignore()
-	M.delta(12,98,'d').ignore()
-	M.delta(11,98,'v').ignore()
+	M.delta(12,91,'d').ignore()
+	M.delta(11,91,'v').ignore()
 	
 	/**5. = put/pick X n**/
 	M.delta(2,13,'p').push("C")
 	M.delta(13,15,'v').ignore()
 	M.delta(13,14,':').ignore()
 	M.delta(14,15,'o').ignore()
-	M.delta(15,98,'#').ignore()
-	M.delta(15,98,'v').ignore()
+	M.delta(15,91,'#').ignore()
+	M.delta(15,91,'v').ignore()
 		
 	/**6. (move-dir n D)**/
 	M.delta(2,16,'h').push("C")
 	M.delta(16,17,'#').ignore()
 	M.delta(16,17,'v').ignore()
 	M.delta(17,18,':').ignore()
-	M.delta(18,98,'z').ignore()
-	M.delta(18,98,'C').ignore()
-	M.delta(17,98,'v').ignore()
+	M.delta(18,91,'z').ignore()
+	M.delta(18,91,'C').ignore()
+	M.delta(17,91,'v').ignore()
 	
 	/**7. = (run-dirs Ds)**/
 	M.delta(2,19,'u').push("C")
@@ -101,8 +100,8 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(20,21,'z').ignore()
 	M.delta(20,21,'C').ignore()
 	M.delta(19,21,'v').ignore()
-	M.delta(21,99,')').pop("PC") // Caso especial: Acaba el comando
-	M.delta(19,99,')').pop("PC") // Caso especial: Acaba el comando
+	M.delta(21,90,')').pop("PC") // Caso especial: Acaba el comando
+	M.delta(19,90,')').pop("PC") // Caso especial: Acaba el comando
 	M.delta(21,20,':').ignore()
 	M.delta(21,19,'v').ignore()
 	
@@ -111,93 +110,143 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(22,23,'#').ignore()
 	M.delta(22,23,'v').ignore()
 	M.delta(23,24,':').ignore()
-	M.delta(24,98,'d').ignore()
-	M.delta(23,98,'v').ignore()
+	M.delta(24,91,'d').ignore()
+	M.delta(23,91,'v').ignore()
 	
 	/**9. = (null)**/
-	M.delta(2,98,'l').push("C")
+	M.delta(2,91,'l').push("C")
+	
+	/**10. function invoking **/
+	M.delta(2,25,'v').push("$")
+	M.delta(25,26,'v').ignore()
+	M.delta(25,26,'#').ignore()
+	M.delta(25,26,":d").ignore()
+	M.delta(25,26,":A").ignore()
+	M.delta(25,26,":C").ignore()
+	M.delta(25,26,":z").ignore()
+	M.delta(26,26,'v').$skip("$")
+	M.delta(26,26,'#').$skip("$")
+	M.delta(26,26,":d").$skip("$")
+	M.delta(26,26,":A").$skip("$")
+	M.delta(26,26,":C").$skip("$")
+	M.delta(26,26,":z").$skip("$")
+	M.delta(25,90,')').pop("P$") // Función sin parámetros
+	M.delta(26,90,')').pop("P$") // Función con parámetros
 	
 	/**DEFUN**/
-	M.delta(2,25,'e').push("E")
-	M.delta(25,26,'v').ignore()
-	M.delta(26,27,'(').push("P")
-	M.delta(27,28,'v').$skip("P")
-	M.delta(28,28,'v').$skip("P")
-	M.delta(27,2,')').pop("P") // Función sin argumentos
-	M.delta(28,2,')').pop("P") // Lo mando a que haga la operación de bloques
+	M.delta(2,27,'e').push("E")
+	M.delta(27,28,'v').ignore()
+	M.delta(28,29,'(').push("P")
+	M.delta(29,30,'v').$skip("P")
+	M.delta(30,30,'v').$skip("P")
+	M.delta(29,2,')').pop("P") // Función sin argumentos
+	M.delta(30,2,')').pop("P") // Lo mando a que haga la operación de bloques
 	
 	/**CONDITIONAL**/
-	M.delta(2,29,'I').push("I")
-	M.delta(29,30,'(').push("P")
-	M.delta(31,2,')').changeTop("PA","1") // Lo mando a que haga la operación de bloque1
-	M.delta(31,33,')').changeTop("NPA","N")
+	M.delta(2,31,'I').push("I")
+	M.delta(31,32,'(').push("P")
+	M.delta(33,2,')').changeTop("PA","1") // Continúa después de la condición con el bloque1
+	M.delta(33,35,')').changeTop("NPA","N")
+	
+	/**LOOP**/
+	M.delta(2,36,'L').push("L")
+	M.delta(36,32,'(').push("P")
+	
+	/**REPEAT TIMES**/
+	M.delta(2,37,'R').push("R")
+	M.delta(37,38,'#').ignore()
+	M.delta(37,38,'v').ignore()
+	M.delta(38,39,λ).pushOn("R","1")
+	M.delta(39,2,'(').push("P")
 	
 	/**CONDITIONS**/
-	// Usados hasta ahora en la pila PDCE$IL
 	/**1. facing? O**/
-	M.delta(30,40,'F').push("A")
+	M.delta(32,40,'F').push("A")
 	M.delta(40,41,'?').ignore()
-	M.delta(41,31,'d').ignore()
+	M.delta(41,33,'d').ignore()
+	M.delta(41,33,'v').ignore()
 	
 	/**2. blocked?**/
-	M.delta(30,42,'O').push("A")
-	M.delta(42,31,'?').ignore()
+	M.delta(32,42,'O').push("A")
+	M.delta(42,33,'?').ignore()
 	
 	/**3. can-put/pick? X n**/
-	M.delta(30,43,'P').push("A")
+	M.delta(32,43,'P').push("A")
 	M.delta(43,44,'?').ignore()
 	M.delta(44,45,'o').ignore()
-	M.delta(45,31,'#').ignore()
+	M.delta(45,33,'#').ignore()
+	M.delta(45,33,'v').ignore()
 
 	/**4. can-move? D**/
-	M.delta(30,46,'W').push("A")
+	M.delta(32,46,'W').push("A")
 	M.delta(46,47,'?').ignore()
 	M.delta(47,48,':').ignore()
-	M.delta(48,31,'d').ignore()
+	M.delta(48,33,'d').ignore()
+	M.delta(47,33,'v').ignore()
 	
 	/**5. isZero? V**/
-	M.delta(30,49,'Z').push("A")
+	M.delta(32,49,'Z').push("A")
 	M.delta(49,50,'?').ignore()
-	M.delta(50,31,'#').ignore()
+	M.delta(50,33,'#').ignore()
+	M.delta(50,33,'v').ignore()
 	
 	/**6. not cond**/
-	M.delta(30,32,'n').push("N")
-	M.delta(32,30,'(').push("P")
-	M.delta(33,2,')').changeTop("PN","1")
+	M.delta(32,34,'n').push("N")
+	M.delta(34,32,'(').push("P")
+	M.delta(35,2,')').changeTop("PN","1") // Continúa después de la not condición con el bloque1
 	
 	
 	/**FINALIZACIONES**/
 	/* Finalización de una función */
-	M.delta(99,97,')').pop("PE")
-	M.delta(99,97,"))").pop("PEP")
-	M.delta(99,2,")(").$skip("P")
-	M.delta(97,97,')').pop("P")
-	M.delta(97,100,λ).pop("$")
-	M.delta(97,2,'(').push("P") //Si algo continúa después de acabar un fragmento lógico
+	M.delta(90,90,')').pop("P") // Cierre de un bloque
+	M.delta(91,90,')').pop("PC") // Cierre de un comando
+	// Continúa después de cierre de bloque
+	M.delta(90,2,'(').pushOn("0","P")
+	M.delta(90,2,'(').pushOn("P","P") 
+	M.delta(90,2,'(').pushOn("PE","P")
 	
-	/* Finalización dentro de un condicional */
-	M.delta(98,96,')').changeTop("PI1PC","PI2")
-	M.delta(99,96,')').changeTop("PI1P","PI2")
-	M.delta(96,2,'(').push("P")
-	M.delta(98,95,')').changeTop("PI2PC","PI")
-	M.delta(99,95,')').changeTop("PI2P","PI")
-	M.delta(98,95,")(").push("AAAAA")
-	M.delta(99,95,")(").push("AAAAA")
-	M.delta(95,94,')').pop("PI")
-	M.delta(94,100,λ).pop("$")
-	M.delta(94,2,'(').push("P") // Si algo continúa después de acabar un condicional
+	M.delta(90,92,')').pop("PE") // Cierre de un defun
+	M.delta(92,92,')').pop("P")
+	M.delta(92,2,'(').push("P") // Continúa después de cierre de defun
 	
-	/** Finalización de un comando o bloque**/
-	M.delta(98,99,')').pop("PC")
-	M.delta(99,99,')').changeTop("PP","P")
-	M.delta(99,100,')').pop("$P")
-	M.delta(99,100,λ).pop("$")
-	M.delta(99,2,'(').push("P")
-	M.delta(100,2,'(').push("P")
+	M.delta(90,93,λ).$skip("I1") // Acaba el primer bloque del condicional (if true)
+	M.delta(93,2,'(').changeTop("I1","I2P") // Sustituye el contador al segundo bloque
+	M.delta(90,94,λ).pop("2") // Acaba el segundo bloque del condicional (if false)
+	M.delta(94,95,')').pop("PI") // Cierre de un if
+	M.delta(95,95,')').pop("P")
+	M.delta(95,2,'(').push("P") // Continúa después de cierre de if
+
+	M.delta(90,96,λ).$skip("L1") // Acaba el bloque del ciclo (loop B)
+	M.delta(96,97,')').pop("PL1") // Cierre de un loop
+	M.delta(97,97,')').pop("P") 
+	M.delta(97,2,'(').push("P") // Continúa después de cierre de loop
 	
+	M.delta(90,98,λ).$skip("R1") // Acaba el bloque del ciclo (repeat n B)
+	M.delta(98,99,')').pop("PR1") // Cierre de un repeat
+	M.delta(99,99,')').pop("P") 
+	M.delta(99,2,'(').push("P") // Continúa después de cierre de repeat
+		
+	// Ajustes para bloques embebidos
+	M.delta(95,90,λ).$skip("PE")	// if dentro de función
+	M.delta(95,96,λ).$skip("L1")	// if dentro de loop
+	M.delta(95,98,λ).$skip("R1")	// if dentro de repeat
+	M.delta(97,90,λ).$skip("PE")	// loop dentro de función
+	M.delta(97,98,λ).$skip("R1")	// loop dentro de repeat
+	M.delta(97,93,λ).$skip("I1")	// loop dentro de if
+	M.delta(97,94,λ).pop("2")
+	M.delta(99,90,λ).$skip("PE")	// repeat dentro de función
+	M.delta(99,93,λ).$skip("I1")	// repeat dentro de if
+	M.delta(99,94,λ).pop("2")
+	M.delta(99,96,λ).$skip("L1")	// repeat dentro de loop
 	
+	// Eliminación del indicador de inicio
+	M.delta(90,100,λ).pop("0")
+	M.delta(92,100,λ).pop("0")
+	M.delta(95,100,λ).pop("0")
+	M.delta(97,100,λ).pop("0")
+	M.delta(99,100,λ).pop("0")
 	
-	
+	M.delta(1,100,λ).ignore() // El programa vacío es válido
 	
 return M
 end
