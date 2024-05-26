@@ -15,7 +15,7 @@ function createParser(A):IPushdownAutomaton begin
 	Σ:= toSet(A) ∪ {' ', '\n'} 
 	
 	/**STACK ALPHABET**/
-	Γ:={'$','P','D','C','E','I','L','R','A','N','B'}
+	Γ:={'$','P','D','C','E','I','L','R','A','N','1','2'}
 	
 	/**INITIAL STATE**/
 	
@@ -129,7 +129,7 @@ function createParser(A):IPushdownAutomaton begin
 	/**CONDITIONAL**/
 	M.delta(2,29,'I').push("I")
 	M.delta(29,30,'(').push("P")
-	M.delta(31,2,')').changeTop("PA","B") // Lo mando a que haga la operación de bloque1
+	M.delta(31,2,')').changeTop("PA","1") // Lo mando a que haga la operación de bloque1
 	M.delta(31,33,')').changeTop("NPA","N")
 	
 	/**CONDITIONS**/
@@ -163,7 +163,7 @@ function createParser(A):IPushdownAutomaton begin
 	/**6. not cond**/
 	M.delta(30,32,'n').push("N")
 	M.delta(32,30,'(').push("P")
-	M.delta(33,2,')').changeTop("PN","B")
+	M.delta(33,2,')').changeTop("PN","1")
 	
 	
 	/**FINALIZACIONES**/
@@ -175,10 +175,16 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(97,2,'(').push("P") //Si algo continúa después de acabar un fragmento lógico
 	
 	/* Finalización dentro de un condicional */
-	M.delta(98,2,")(").changeTop("BPC","BB")
-	M.delta(98,96,"))").pop("BBPC")
-	M.delta(96,95,')').pop("PI")
-	M.delta(95,100,λ).pop("$")
+	M.delta(98,96,')').changeTop("PI1PC","PI2")
+	M.delta(99,96,')').changeTop("PI1P","PI2")
+	M.delta(96,2,'(').push("P")
+	M.delta(98,95,')').changeTop("PI2PC","PI")
+	M.delta(99,95,')').changeTop("PI2P","PI")
+	M.delta(98,95,")(").push("AAAAA")
+	M.delta(99,95,")(").push("AAAAA")
+	M.delta(95,94,')').pop("PI")
+	M.delta(94,100,λ).pop("$")
+	M.delta(94,2,'(').push("P") // Si algo continúa después de acabar un condicional
 	
 	/** Finalización de un comando o bloque**/
 	M.delta(98,99,')').pop("PC")
