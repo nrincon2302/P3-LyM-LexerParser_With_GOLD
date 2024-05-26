@@ -236,6 +236,7 @@ end
 	// Operators (length 1) can be translated as themselves so you don't need to add it to the translation table
 	
 	// translation.put("\n",'@')  only use this if \n is part of the language and is not skipped @ must not be used for any other translation 
+	/**TRANSLATIONS DEFINITION **/
 
 	/*NAME IDENTIFIERS*/
 	translation.put("IdL",'v')  
@@ -301,5 +302,6 @@ end
 	translation.put("can-move",'W')
 	translation.put("isZero",'Z')
 	translation.put("not",'n')
+	
 	 
 end

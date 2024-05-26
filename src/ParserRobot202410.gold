@@ -43,36 +43,36 @@ function createParser(A):IPushdownAutomaton begin
 	
 	/**COMANDOS**/
 	/**1. = name n**/
-	M.delta(2,6,'=').push("C")
-	M.delta(6,7,'v').ignore()
-	M.delta(7,7,':').ignore()
+	M.delta(2,5,'=').push("C")
+	M.delta(5,6,'v').ignore()
+	M.delta(6,7,':').ignore()
 	M.delta(7,91,'d').ignore()
 	M.delta(7,91,'C').ignore()
 	M.delta(7,91,'A').ignore()
 	M.delta(7,91,'z').ignore()
 	M.delta(7,91,'o').ignore()
-	M.delta(7,91,'#').ignore()
-	M.delta(7,91,'v').ignore()
+	M.delta(6,91,'#').ignore()
+	M.delta(6,91,'v').ignore()
 	
-	/**2. = move n, skip n**/
+	/**2. move n, skip n**/
 	M.delta(2,8,'m').push("C")
 	M.delta(8,91,'#').ignore()
 	M.delta(8,91,'v').ignore()
 	
-	/**3. = turn D**/
+	/**3. turn D**/
 	M.delta(2,9,'t').push("C")
 	M.delta(9,10,':').ignore()
 	M.delta(10,91,'C').ignore()
 	M.delta(10,91,'A').ignore()
 	M.delta(9,91,'v').ignore() //Una variable no tiene los : adelante
 	
-	/**4. = face O**/
+	/**4. face O**/
 	M.delta(2,11,'f').push("C")
 	M.delta(11,12,':').ignore()
 	M.delta(12,91,'d').ignore()
 	M.delta(11,91,'v').ignore()
 	
-	/**5. = put/pick X n**/
+	/**5. put/pick X n**/
 	M.delta(2,13,'p').push("C")
 	M.delta(13,15,'v').ignore()
 	M.delta(13,14,':').ignore()
@@ -89,7 +89,7 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(18,91,'C').ignore()
 	M.delta(17,91,'v').ignore()
 	
-	/**7. = (run-dirs Ds)**/
+	/**7. (run-dirs Ds)**/
 	M.delta(2,19,'u').push("C")
 	M.delta(19,20,':').ignore()
 	M.delta(20,21,'z').ignore()
@@ -100,7 +100,7 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(21,20,':').ignore()
 	M.delta(21,19,'v').ignore()
 	
-	/**8. = (move-face n O)**/
+	/**8. (move-face n O)**/
 	M.delta(2,22,'a').push("C")
 	M.delta(22,23,'#').ignore()
 	M.delta(22,23,'v').ignore()
@@ -108,7 +108,7 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(24,91,'d').ignore()
 	M.delta(23,91,'v').ignore()
 	
-	/**9. = (null)**/
+	/**9. (null)**/
 	M.delta(2,91,'l').push("C")
 	
 	/**10. function invoking **/
@@ -225,6 +225,8 @@ function createParser(A):IPushdownAutomaton begin
 	M.delta(95,90,λ).$skip("PE")	// if dentro de función
 	M.delta(95,96,λ).$skip("L1")	// if dentro de loop
 	M.delta(95,98,λ).$skip("R1")	// if dentro de repeat
+	M.delta(95,93,λ).$skip("I1")	// if dentro de if
+	M.delta(95,94,λ).pop("2")
 	M.delta(97,90,λ).$skip("PE")	// loop dentro de función
 	M.delta(97,98,λ).$skip("R1")	// loop dentro de repeat
 	M.delta(97,93,λ).$skip("I1")	// loop dentro de if
