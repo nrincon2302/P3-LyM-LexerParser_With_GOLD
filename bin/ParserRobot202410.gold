@@ -5,31 +5,26 @@ toSet(C) :=  {x|  x in C}
 /**PARSER DEFINITION (PUSHDOWN AUTOMATON)**/
 
 function createParser(A):IPushdownAutomaton begin
-	
-	/**STATES DEFINITION**/
-	
+	/**STATES DEFINITION**/	
 	Q:= (1‥50)∪(90‥100)
 	
-	/**INPUT ALPHABET DEFINITION**/
-	
+	/**INPUT ALPHABET DEFINITION**/	
 	Σ:= toSet(A) ∪ {' ', '\n'} 
 	
 	/**STACK ALPHABET**/
 	Γ:={'$','P','D','C','E','I','L','R','A','N','0','1','2'}
 	
-	/**INITIAL STATE**/
-	
+	/**INITIAL STATE**/	
 	q₀:= 1
 	
-	/**SET OF FINALS STATES**/
-	
+	/**SET OF FINALS STATES**/	
 	F:= {100}
 	
 	M:=GPushdownAutomaton(Q,Σ,Γ,q₀,F)
 	
 	SkipChars := {' ', '\n'}   // this will only  be used when testing only the parser as the lexer removes  SkipChars
 	
-	/**TRANSITIONS FOR VERIFY ROBOT_R KEYWORD (MANDATORY)**/
+	/**TRANSITIONS**/
 	
 	M.delta(1,2,'(').push("0P")
 	M.delta(2,2,'(').push("P")
@@ -248,5 +243,12 @@ function createParser(A):IPushdownAutomaton begin
 	
 	M.delta(1,100,λ).ignore() // El programa vacío es válido
 	
+	// Asegura que el Parser funcione con la Opción #3 (ignora el salto final "\n")
+	for each q in Q do 
+		for each s in SkipChars do
+			M.delta(q,q,λ+s).ignore()
+		end
+	end
+
 return M
 end
